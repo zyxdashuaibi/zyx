@@ -1,0 +1,185 @@
+﻿
+
+# dev
+# 修改时间：2022-04-18
+INSERT INTO `yoshop_store_api` VALUES ('11186', '上传视频文件', '/upload/video', '11008', '112', '1614556800', '1614556800');
+
+# dev
+# 修改时间：2022-03-03
+INSERT INTO `yoshop_store_menu_api` VALUES ('10664', '10015', '11025', '1614556800');
+INSERT INTO `yoshop_store_menu_api` VALUES ('10665', '10015', '11022', '1614556800');
+INSERT INTO `yoshop_store_menu_api` VALUES ('10666', '10015', '11020', '1614556800');
+
+-------------------------------------
+
+# v2.0.5
+# 修改时间：2022-01-24
+ALTER TABLE `yoshop_goods`
+ADD COLUMN `video_id`  int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '主图视频ID' AFTER `goods_no`,
+ADD COLUMN `video_cover_id`  int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '主图视频ID' AFTER `video_id`;
+
+# v2.0.4
+# 修改时间：2021-11-29
+ALTER TABLE `yoshop_wxapp` COMMENT='微信小程序记录表（已废弃）';
+
+CREATE TABLE `yoshop_wxapp_setting` (
+  `key` varchar(30) NOT NULL DEFAULT '' COMMENT '设置项标示',
+  `describe` varchar(255) NOT NULL DEFAULT '' COMMENT '设置项描述',
+  `values` mediumtext NOT NULL COMMENT '设置内容(json格式)',
+  `store_id` int unsigned NOT NULL DEFAULT '0' COMMENT '商城ID',
+  `update_time` int unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  UNIQUE KEY `unique_key` (`key`,`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信小程序设置表';
+
+
+CREATE TABLE `yoshop_h5_setting` (
+  `key` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '设置项标示',
+  `describe` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '设置项描述',
+  `values` mediumtext CHARACTER SET utf8 NOT NULL COMMENT '设置内容(json格式)',
+  `store_id` int unsigned NOT NULL DEFAULT '0' COMMENT '商城ID',
+  `update_time` int unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  UNIQUE KEY `unique_key` (`key`,`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='H5端设置表';
+
+
+UPDATE `yoshop_store_api` SET `url`='/client.wxapp.setting/update', `sort`='105' WHERE (`api_id`='11153');
+UPDATE `yoshop_store_api` SET `url`='/client.wxapp.setting/detail', `sort`='100' WHERE (`api_id`='11182');
+
+INSERT INTO `yoshop_store_api` VALUES ('11270', 'H5端', '-', '11151', '105', '1614556800', '1614556800');
+INSERT INTO `yoshop_store_api` VALUES ('11271', '获取设置项', '/client.h5.setting/detail', '11270', '100', '1614556800', '1614556800');
+INSERT INTO `yoshop_store_api` VALUES ('11272', '更新设置项', '/client.h5.setting/update', '11270', '105', '1614556800', '1614556800');
+
+
+--------------------------------------------
+
+# v2.0.3
+# 修改时间：2021-10-19
+DROP TABLE IF EXISTS `yoshop_order_export`;
+CREATE TABLE `yoshop_order_export` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `start_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间(开始)',
+  `end_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '下单时间(结束)',
+  `file_path` varchar(255) NOT NULL DEFAULT '' COMMENT 'excel文件路径',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '导出状态(10进行中 20已完成 30失败)',
+  `store_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商城ID',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `store_id` (`store_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8 COMMENT='订单导出Excel记录表';
+
+
+# v2.0.3
+# 修改时间：2021-10-19
+INSERT INTO `yoshop_store_api` VALUES ('11185', '删除订单', '/order.event/delete', '11132', '135', '1614556800', '1614556800');
+INSERT INTO `yoshop_store_menu` VALUES ('10141', '20', '删除订单', '', 'delete', '10051', '115', '1614556800', '1614556800');
+INSERT INTO `yoshop_store_menu_api` VALUES ('10661', '10141', '11185', '1614556800');
+INSERT INTO `yoshop_store_menu_api` VALUES ('10662', '10141', '11132', '1614556800');
+INSERT INTO `yoshop_store_menu_api` VALUES ('10663', '10141', '11076', '1614556800');
+
+
+# v2.0.3
+# 修改时间：2021-10-19
+ALTER TABLE `yoshop_order`
+ADD COLUMN `platform`  varchar(20) NOT NULL DEFAULT '' COMMENT '来源客户端 (APP、H5、小程序等)' AFTER `order_source_id`;
+
+--------------------------------------------
+
+
+# v2.0.1
+# 修改时间：2021-3-26
+ALTER TABLE `yoshop_user_oauth` ADD INDEX `oauth_type_2` (`oauth_type`, `oauth_id`) USING BTREE ;
+
+
+# v2.0.1
+# 修改时间：2021-3-26
+ALTER TABLE `yoshop_user_oauth`
+ADD COLUMN `is_delete`  tinyint UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除' AFTER `store_id` ;
+
+
+# v2.0.1
+# 修改时间：2021-6-2
+INSERT INTO `yoshop_region` VALUES ('3620', '东城街道', '2051', '﻿44190', '3');
+INSERT INTO `yoshop_region` VALUES ('3621', '南城街道', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3622', '万江街道', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3623', '莞城街道', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3624', '石碣镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3625', '石龙镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3626', '茶山镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3627', '石排镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3628', '企石镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3629', '横沥镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3630', '桥头镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3631', '谢岗镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3632', '东坑镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3633', '常平镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3634', '寮步镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3635', '樟木头镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3636', '大朗镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3637', '黄江镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3638', '清溪镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3639', '塘厦镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3640', '凤岗镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3641', '大岭山镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3642', '长安镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3643', '虎门镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3644', '厚街镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3645', '沙田镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3646', '道滘镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3647', '洪梅镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3648', '麻涌镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3649', '望牛墩镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3650', '中堂镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3651', '高埗镇', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3652', '松山湖', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3653', '东莞港', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3654', '东莞生态园', '2051', '441900', '3');
+INSERT INTO `yoshop_region` VALUES ('3655', '石岐街道', '2052', '﻿44200', '3');
+INSERT INTO `yoshop_region` VALUES ('3656', '东区街道', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3657', '中山港街道', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3658', '西区街道', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3659', '南区街道', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3660', '五桂山街道', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3661', '小榄镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3662', '黄圃镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3663', '民众镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3664', '东凤镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3665', '东升镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3666', '古镇镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3667', '沙溪镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3668', '坦洲镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3669', '港口镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3670', '三角镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3671', '横栏镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3672', '南头镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3673', '阜沙镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3674', '南朗镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3675', '三乡镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3676', '板芙镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3677', '大涌镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3678', '神湾镇', '2052', '442000', '3');
+INSERT INTO `yoshop_region` VALUES ('3679', '西沙群岛', '2206', '﻿46032', '3');
+INSERT INTO `yoshop_region` VALUES ('3680', '南沙群岛', '2206', '460322', '3');
+INSERT INTO `yoshop_region` VALUES ('3681', '中沙群岛的岛礁及其海域', '2206', '460323', '3');
+INSERT INTO `yoshop_region` VALUES ('3682', '那大镇', '2207', '﻿46040', '3');
+INSERT INTO `yoshop_region` VALUES ('3683', '和庆镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3684', '南丰镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3685', '大成镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3686', '雅星镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3687', '兰洋镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3688', '光村镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3689', '木棠镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3690', '海头镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3691', '峨蔓镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3692', '王五镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3693', '白马井镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3694', '中和镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3695', '排浦镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3696', '东成镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3697', '新州镇', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3698', '洋浦经济开发区', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3699', '华南热作学院', '2207', '460400', '3');
+INSERT INTO `yoshop_region` VALUES ('3700', '雄关街道', '2922', '﻿62020', '3');
+INSERT INTO `yoshop_region` VALUES ('3701', '钢城街道', '2922', '620201', '3');
+INSERT INTO `yoshop_region` VALUES ('3702', '新城镇', '2922', '620201', '3');
+INSERT INTO `yoshop_region` VALUES ('3703', '峪泉镇', '2922', '620201', '3');
+INSERT INTO `yoshop_region` VALUES ('3704', '文殊镇', '2922', '620201', '3');
